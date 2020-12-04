@@ -1,2 +1,3 @@
 # simple-vue2
-Created with CodeSandbox
+
+该项目主要目的是将 vue2 的源码简单化，抽出核心逻辑，方便研究与学习。
