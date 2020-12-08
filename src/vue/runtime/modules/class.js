@@ -1,8 +1,8 @@
 /* @flow */
 
-import { isDef, isUndef } from "shared/util";
+import { isDef, isUndef } from "../../shared/util";
 
-import { concat, stringifyClass, genClassForVnode } from "web/util/index";
+import { concat, stringifyClass, genClassForVnode } from "../util/index";
 
 function updateClass(oldVnode, vnode) {
   const el = vnode.elm;

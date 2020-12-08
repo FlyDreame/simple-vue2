@@ -1,6 +1,6 @@
 /* @flow */
 
-import { cached, extend, toObject } from "shared/util";
+import { cached, extend, toObject } from "../../shared/util";
 
 export const parseStyleText = cached(function (cssText) {
   const res = {};

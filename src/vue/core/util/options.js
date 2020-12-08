@@ -6,7 +6,7 @@ import { set } from "../observer/index";
 import { unicodeRegExp } from "./lang";
 import { nativeWatch, hasSymbol } from "./env";
 
-import { ASSET_TYPES, LIFECYCLE_HOOKS } from "shared/constants";
+import { ASSET_TYPES, LIFECYCLE_HOOKS } from "../../shared/constants";
 
 import {
   extend,

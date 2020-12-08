@@ -2,7 +2,7 @@
 
 import { isIE, isIE9, isEdge } from "../../core/util/env";
 
-import { extend, isDef, isUndef } from "shared/util";
+import { extend, isDef, isUndef } from "../../shared/util";
 
 import {
   isXlink,
@@ -12,7 +12,7 @@ import {
   isEnumeratedAttr,
   isFalsyAttrValue,
   convertEnumeratedValue
-} from "web/util/index";
+} from "../util/index";
 
 function updateAttrs(oldVnode, vnode) {
   const opts = vnode.componentOptions;

@@ -1,6 +1,6 @@
 /* @flow */
 
-import { getStyle, normalizeStyleBinding } from "web/util/style";
+import { getStyle, normalizeStyleBinding } from "../util/style";
 import {
   cached,
   camelize,
@@ -8,7 +8,7 @@ import {
   isDef,
   isUndef,
   hyphenate
-} from "shared/util";
+} from "../../shared/util";
 
 const cssVarRE = /^--/;
 const importantRE = /\s*!important$/;

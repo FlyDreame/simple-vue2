@@ -1,13 +1,18 @@
 /* @flow */
 
-import { isDef, isUndef } from "shared/util";
-import { updateListeners } from "core/vdom/helpers/index";
-import { isIE, isFF, supportsPassive, isUsingMicroTask } from "core/util/index";
+import { isDef, isUndef } from "../../shared/util";
+import { updateListeners } from "../../core/vdom/helpers/index";
+import {
+  isIE,
+  isFF,
+  supportsPassive,
+  isUsingMicroTask
+} from "../../core/util/index";
 import {
   RANGE_TOKEN,
   CHECKBOX_RADIO_TOKEN
-} from "web/compiler/directives/model";
-import { currentFlushTimestamp } from "core/observer/scheduler";
+} from "../compiler/directives/model";
+import { currentFlushTimestamp } from "../../core/observer/scheduler";
 
 // normalize v-model event tokens that can only be determined at runtime.
 // it's important to place the event as the first in the array because

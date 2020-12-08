@@ -72,7 +72,7 @@ export function renderMixin(Vue) {
       currentRenderingInstance = vm;
       vnode = render.call(vm._renderProxy, vm.$createElement);
     } catch (e) {
-      // handleError(e, vm, `render`)
+      console.error(e);
       // return error render result,
       // or previous vnode to prevent render error causing blank component
       /* istanbul ignore else */

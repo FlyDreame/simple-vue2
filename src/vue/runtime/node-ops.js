@@ -1,6 +1,6 @@
 /* @flow */
 
-import { namespaceMap } from "web/util/index";
+import { namespaceMap } from "./util/index";
 
 export function createElement(tagName, vnode) {
   const elm = document.createElement(tagName);
