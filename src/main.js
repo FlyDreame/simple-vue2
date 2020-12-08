@@ -1,4 +1,4 @@
-import vue from "vue";
+import vue from "./vue";
 
 const app = new vue({
   render: (createElement) => {
