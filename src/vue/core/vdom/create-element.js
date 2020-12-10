@@ -2,7 +2,7 @@
 
 import config from "../config";
 import VNode, { createEmptyVNode } from "./vnode";
-// import { createComponent } from "./create-component";
+import { createComponent } from "./create-component";
 import { traverse } from "../observer/traverse";
 
 import {
@@ -96,7 +96,7 @@ export function _createElement(
       isDef((Ctor = resolveAsset(context.$options, "components", tag)))
     ) {
       // TODO： 创建一个组件
-      // vnode = createComponent(Ctor, data, context, children, tag);
+      vnode = createComponent(Ctor, data, context, children, tag);
     } else {
       // unknown or unlisted namespaced elements
       // check at runtime because it may get assigned a namespace when its

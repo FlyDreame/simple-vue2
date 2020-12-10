@@ -3,7 +3,7 @@
 import config from "../config";
 // import { initUse } from './use'
 // import { initMixin } from './mixin'
-// import { initExtend } from './extend'
+import { initExtend } from "./extend";
 // import { initAssetRegisters } from './assets'
 // import { set, del } from '../observer/index'
 import { ASSET_TYPES } from "../../shared/constants";
@@ -57,6 +57,6 @@ export function initGlobalAPI(Vue) {
 
   // initUse(Vue)
   // initMixin(Vue)
-  // initExtend(Vue)
+  initExtend(Vue);
   // initAssetRegisters(Vue)
 }

@@ -20,8 +20,8 @@ export function initMixin(Vue) {
 
     // 合并配置
     if (options && options._isComponent) {
-      // 如果是组件的话，需要单独进行优化处理
-      // initInternalComponent(vm, options)
+      // 如果是组件的话，需要进行初始化处理
+      initInternalComponent(vm, options);
     } else {
       vm.$options = mergeOptions(
         resolveConstructorOptions(vm.constructor),
@@ -47,6 +47,25 @@ export function initMixin(Vue) {
       vm.$mount(vm.$options.el);
     }
   };
+}
+
+export function initInternalComponent(vm, options) {
+  const opts = (vm.$options = Object.create(vm.constructor.options));
+  // doing this because it's faster than dynamic enumeration.
+  const parentVnode = options._parentVnode;
+  opts.parent = options.parent;
+  opts._parentVnode = parentVnode;
+
+  const vnodeComponentOptions = parentVnode.componentOptions;
+  opts.propsData = vnodeComponentOptions.propsData;
+  opts._parentListeners = vnodeComponentOptions.listeners;
+  opts._renderChildren = vnodeComponentOptions.children;
+  opts._componentTag = vnodeComponentOptions.tag;
+
+  if (options.render) {
+    opts.render = options.render;
+    opts.staticRenderFns = options.staticRenderFns;
+  }
 }
 
 export function resolveConstructorOptions(Ctor) {
