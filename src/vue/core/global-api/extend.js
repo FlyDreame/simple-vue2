@@ -80,16 +80,16 @@ export function initExtend(Vue) {
   };
 }
 
-function initProps(Comp) {
-  const props = Comp.options.props;
-  for (const key in props) {
-    proxy(Comp.prototype, `_props`, key);
-  }
-}
+// function initProps(Comp) {
+//   const props = Comp.options.props;
+//   for (const key in props) {
+//     proxy(Comp.prototype, `_props`, key);
+//   }
+// }
 
-function initComputed(Comp) {
-  const computed = Comp.options.computed;
-  for (const key in computed) {
-    defineComputed(Comp.prototype, key, computed[key]);
-  }
-}
+// function initComputed(Comp) {
+//   const computed = Comp.options.computed;
+//   for (const key in computed) {
+//     defineComputed(Comp.prototype, key, computed[key]);
+//   }
+// }

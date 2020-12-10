@@ -25,7 +25,11 @@
       "node": true
     },
     "extends": ["plugin:vue/essential", "eslint:recommended"],
-    "rules": {},
+    "rules": {
+      "no-unused-vars": "warn",
+      "no-empty": "warn",
+      "no-debugger": "warn"
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }

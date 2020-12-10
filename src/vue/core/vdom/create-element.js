@@ -95,7 +95,7 @@ export function _createElement(
       (!data || !data.pre) &&
       isDef((Ctor = resolveAsset(context.$options, "components", tag)))
     ) {
-      // TODO： 创建一个组件
+      // 创建一个组件
       vnode = createComponent(Ctor, data, context, children, tag);
     } else {
       // unknown or unlisted namespaced elements
@@ -104,7 +104,7 @@ export function _createElement(
       vnode = new VNode(tag, data, children, undefined, undefined, context);
     }
   } else {
-    // TODO： 创建一个组件 options / constructor
+    // 创建一个组件 options / constructor
     // vnode = createComponent(tag, data, context, children);
   }
   if (Array.isArray(vnode)) {

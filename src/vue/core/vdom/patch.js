@@ -828,29 +828,7 @@ export function createPatchFunction(backend) {
         patchVnode(oldVnode, vnode, insertedVnodeQueue, null, null, removeOnly);
       } else {
         if (isRealElement) {
-          // mounting to a real element
-          // check if this is server-rendered content and if we can perform
-          // a successful hydration.
-          if (oldVnode.nodeType === 1 && oldVnode.hasAttribute(SSR_ATTR)) {
-            oldVnode.removeAttribute(SSR_ATTR);
-            hydrating = true;
-          }
-          if (isTrue(hydrating)) {
-            if (hydrate(oldVnode, vnode, insertedVnodeQueue)) {
-              invokeInsertHook(vnode, insertedVnodeQueue, true);
-              return oldVnode;
-            } else if (process.env.NODE_ENV !== "production") {
-              warn(
-                "The client-side rendered virtual DOM tree is not matching " +
-                  "server-rendered content. This is likely caused by incorrect " +
-                  "HTML markup, for example nesting block-level elements inside " +
-                  "<p>, or missing <tbody>. Bailing hydration and performing " +
-                  "full client-side render."
-              );
-            }
-          }
-          // either not server-rendered, or hydration failed.
-          // create an empty node and replace it
+          // 先用个空的替换掉 oldVnode
           oldVnode = emptyNodeAt(oldVnode);
         }
 

@@ -136,7 +136,6 @@ export function mountComponent(vm, el, hydrating) {
   // we set this to vm._watcher inside the watcher's constructor
   // since the watcher's initial patch may call $forceUpdate (e.g. inside child
   // component's mounted hook), which relies on vm._watcher being already defined
-  // TODO: 先注释掉
   new Watcher(
     vm,
     updateComponent,
