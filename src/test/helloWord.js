@@ -6,5 +6,11 @@ export default {
   },
   render(createElement) {
     return createElement("h1", `hello，${this.name}`);
+  },
+  created() {
+    console.log("created!!");
+  },
+  mounted() {
+    console.log("mounted!!");
   }
 };

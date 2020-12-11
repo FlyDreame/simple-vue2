@@ -1,4 +1,4 @@
-import { warn, noop, remove } from "../util/index";
+import { warn, noop, remove, invokeWithErrorHandling } from "../util/index";
 import Watcher from "../observer/watcher";
 
 export let activeInstance = null;
@@ -130,7 +130,6 @@ export function mountComponent(vm, el, hydrating) {
   // 定义 updateComponent 函数
   let updateComponent = () => {
     vm._update(vm._render(), hydrating);
-    // vm._render();
   };
 
   // we set this to vm._watcher inside the watcher's constructor
@@ -163,16 +162,17 @@ export function mountComponent(vm, el, hydrating) {
 // 调用
 export function callHook(vm, hook) {
   // #7573 disable dep collection when invoking lifecycle hooks
+  // TODO: 先注释掉 Dep 的操作
   // pushTarget()
-  // const handlers = vm.$options[hook]
-  // const info = `${hook} hook`
-  // if (handlers) {
-  //   for (let i = 0, j = handlers.length; i < j; i++) {
-  //     invokeWithErrorHandling(handlers[i], vm, null, vm, info)
-  //   }
-  // }
-  // if (vm._hasHookEvent) {
-  //   vm.$emit('hook:' + hook)
-  // }
+  const handlers = vm.$options[hook];
+  const info = `${hook} hook`;
+  if (handlers) {
+    for (let i = 0, j = handlers.length; i < j; i++) {
+      invokeWithErrorHandling(handlers[i], vm, null, vm, info);
+    }
+  }
+  if (vm._hasHookEvent) {
+    vm.$emit("hook:" + hook);
+  }
   // popTarget()
 }
