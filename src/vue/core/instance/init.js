@@ -1,6 +1,7 @@
 import { extend, mergeOptions, formatComponentName } from "../util/index";
 import { initRender } from "./render";
 import { initLifecycle, callHook } from "./lifecycle";
+import { initState } from './state'
 
 // 初始化 Vue 构造函数
 
@@ -40,7 +41,7 @@ export function initMixin(Vue) {
     initRender(vm);
     callHook(vm, "beforeCreate");
     // initInjections(vm) // resolve injections before data/props
-    // initState(vm)
+    initState(vm)
     // initProvide(vm) // resolve provide after data/props
     callHook(vm, "created");
 
