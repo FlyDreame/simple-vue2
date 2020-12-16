@@ -1,5 +1,6 @@
 import { extend, mergeOptions, formatComponentName } from "../util/index";
 import { initRender } from "./render";
+import { initEvents } from './events'
 import { initLifecycle, callHook } from "./lifecycle";
 import { initState } from './state'
 
@@ -37,7 +38,7 @@ export function initMixin(Vue) {
     // expose real self
     vm._self = vm;
     initLifecycle(vm);
-    // initEvents(vm)
+    initEvents(vm)
     initRender(vm);
     callHook(vm, "beforeCreate");
     // initInjections(vm) // resolve injections before data/props
