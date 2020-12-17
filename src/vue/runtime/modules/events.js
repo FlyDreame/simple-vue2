@@ -11,7 +11,7 @@ import {
 import {
   RANGE_TOKEN,
   CHECKBOX_RADIO_TOKEN
-} from "../compiler/directives/model";
+} from "../../compiler/directives/model";
 import { currentFlushTimestamp } from "../../core/observer/scheduler";
 
 // normalize v-model event tokens that can only be determined at runtime.

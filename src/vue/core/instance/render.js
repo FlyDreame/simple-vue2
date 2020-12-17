@@ -1,5 +1,9 @@
 import { createElement } from "../vdom/create-element";
 import VNode, { createEmptyVNode } from "../vdom/vnode";
+import {
+  emptyObject,
+  defineReactive
+} from '../util/index'
 
 // 初始化 render 相关
 export function initRender(vm) {
@@ -20,14 +24,13 @@ export function initRender(vm) {
   // 用户手写 render 方法使用的
   vm.$createElement = (a, b, c, d) => createElement(vm, a, b, c, d, true);
 
-  // TODO: 这里注释
   // // $attrs & $listeners are exposed for easier HOC creation.
   // // they need to be reactive so that HOCs using them are always updated
-  // const parentData = parentVnode && parentVnode.data
+  const parentData = parentVnode && parentVnode.data
 
   // /* istanbul ignore else */
-  // defineReactive(vm, '$attrs', parentData && parentData.attrs || emptyObject, null, true)
-  // defineReactive(vm, '$listeners', options._parentListeners || emptyObject, null, true)
+  defineReactive(vm, '$attrs', parentData && parentData.attrs || emptyObject, null, true)
+  defineReactive(vm, '$listeners', options._parentListeners || emptyObject, null, true)
 }
 
 export let currentRenderingInstance = null; // 当前正在渲染的实例

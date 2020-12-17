@@ -2,6 +2,7 @@ import { initMixin } from "./init";
 import { renderMixin } from "./render";
 import { lifecycleMixin } from "./lifecycle";
 import { stateMixin } from './state'
+import { eventsMixin } from './events'
 
 // 定义 Vue 构造函数
 function Vue(options) {
@@ -17,5 +18,7 @@ stateMixin(Vue)
 lifecycleMixin(Vue);
 // 给 Vue 加上 _render，$nextTick 方法
 renderMixin(Vue);
+
+eventsMixin(Vue)
 
 export default Vue;
