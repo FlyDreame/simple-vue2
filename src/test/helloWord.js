@@ -6,18 +6,17 @@ export default {
   },
   render(createElement) {
     return createElement("div", [
-      createElement('input', {
+      createElement("input", {
         domProps: {
           value: this.name
         },
         on: {
           input: (event) => {
-            debugger
-            self.$emit('input', event.target.value)
+            this.name = event.target.value;
           }
         }
       }),
-      createElement('h2', `hello，${this.name}`)
+      createElement("h2", `hello，${this.name}`)
     ]);
   },
   created() {
@@ -26,7 +25,7 @@ export default {
   mounted() {
     console.log("mounted!!");
     window.setTimeout(() => {
-      this.name = 'simple-vue!!'
-    }, 2000)
+      this.name = "simple-vue!!";
+    }, 2000);
   }
 };

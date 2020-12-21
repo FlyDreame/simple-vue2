@@ -1,6 +1,6 @@
 /* @flow */
 
-import { noop } from 'shared/util'
+import { noop } from '../../shared/util'
 import { handleError } from './error'
 import { isIE, isIOS, isNative } from './env'
 
