@@ -19,6 +19,11 @@ export default {
       createElement("h2", `hello，${this.name}`)
     ]);
   },
+  watch: {
+    name() {
+      console.log("name 被改变");
+    }
+  },
   created() {
     console.log("created!!");
   },
