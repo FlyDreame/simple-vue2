@@ -1,8 +1,8 @@
 import { extend, mergeOptions, formatComponentName } from "../util/index";
 import { initRender } from "./render";
-import { initEvents } from './events'
+import { initEvents } from "./events";
 import { initLifecycle, callHook } from "./lifecycle";
-import { initState } from './state'
+import { initState } from "./state";
 
 // 初始化 Vue 构造函数
 
@@ -23,7 +23,7 @@ export function initMixin(Vue) {
 
     // 合并配置
     if (options && options._isComponent) {
-      // 如果是组件的话，需要进行初始化处理
+      // 如果是组件的话，需要进行组件特有的处理
       initInternalComponent(vm, options);
     } else {
       vm.$options = mergeOptions(
@@ -35,15 +35,21 @@ export function initMixin(Vue) {
 
     vm._renderProxy = vm;
 
-    // expose real self
+    // 暴露出自己，供内部调用
     vm._self = vm;
+    // 给当前对象vm加上 $parent、$root、 $children、$refs等属性，并赋初始值
     initLifecycle(vm);
-    initEvents(vm)
+    // 给当前对象vm加上一些事件相关的属性
+    initEvents(vm);
+    // 给当前对象vm加上一些渲染相关的属性和方法，例如 $createElement、$slots
     initRender(vm);
+    // 执行 beforeCreate 钩子注册的方法
     callHook(vm, "beforeCreate");
     // initInjections(vm) // resolve injections before data/props
-    initState(vm)
+    // 将 data 和 props 绑定在 vm._data_ 和 vm._props 上，同时还将 data 和 props 变得响应式
+    initState(vm);
     // initProvide(vm) // resolve provide after data/props
+    // 执行 created 钩子注册的方法，initState 已调用，此时 created 可以访问 data 和 props了
     callHook(vm, "created");
 
     if (vm.$options.el) {

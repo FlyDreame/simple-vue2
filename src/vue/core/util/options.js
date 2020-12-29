@@ -358,6 +358,7 @@ function assertObjectType(name, value, vm) {
  * Core utility used in both instantiation and inheritance.
  */
 export function mergeOptions(parent, child, vm) {
+  debugger;
   if (typeof child === "function") {
     child = child.options;
   }

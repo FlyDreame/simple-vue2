@@ -9,4 +9,6 @@ const app = new vue({
   components: { helloWord }
 });
 
+console.log(vue);
+
 app.$mount("#app");

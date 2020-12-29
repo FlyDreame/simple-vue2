@@ -312,6 +312,7 @@ export function stateMixin (Vue) {
   dataDef.get = function () { return this._data }
   const propsDef = {}
   propsDef.get = function () { return this._props }
+
   if (process.env.NODE_ENV !== 'production') {
     dataDef.set = function () {
       warn(
@@ -324,6 +325,7 @@ export function stateMixin (Vue) {
       warn(`$props is readonly.`, this)
     }
   }
+  
   Object.defineProperty(Vue.prototype, '$data', dataDef)
   Object.defineProperty(Vue.prototype, '$props', propsDef)
 
