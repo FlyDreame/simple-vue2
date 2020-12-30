@@ -23,7 +23,7 @@ export function initMixin(Vue) {
 
     // 合并配置
     if (options && options._isComponent) {
-      // 如果是组件的话，需要进行组件特有的处理
+      // 如果是组件的话，mergeOptions 已经在 extend 方法中 执行了，此时只需要简单的处理
       initInternalComponent(vm, options);
     } else {
       vm.$options = mergeOptions(
@@ -60,6 +60,7 @@ export function initMixin(Vue) {
 
 export function initInternalComponent(vm, options) {
   const opts = (vm.$options = Object.create(vm.constructor.options));
+
   //  这样做是因为它比动态枚举快。
   const parentVnode = options._parentVnode;
   opts.parent = options.parent;
@@ -79,6 +80,7 @@ export function initInternalComponent(vm, options) {
 
 export function resolveConstructorOptions(Ctor) {
   let options = Ctor.options;
+  debugger;
   if (Ctor.super) {
     const superOptions = resolveConstructorOptions(Ctor.super);
     const cachedSuperOptions = Ctor.superOptions;

@@ -1,13 +1,13 @@
 /* @flow */
 
 import config from "../config";
-// import { initUse } from './use'
-// import { initMixin } from './mixin'
+import { initUse } from "./use";
+import { initMixin } from "./mixin";
 import { initExtend } from "./extend";
-// import { initAssetRegisters } from './assets'
-// import { set, del } from '../observer/index'
+import { initAssetRegisters } from "./assets";
+import { set, del } from "../observer/index";
 import { ASSET_TYPES } from "../../shared/constants";
-// import builtInComponents from '../components/index'
+import builtInComponents from "../components/index";
 import { observe } from "../observer/index";
 
 import {
@@ -53,10 +53,10 @@ export function initGlobalAPI(Vue) {
   // components with in Weex's multi-instance scenarios.
   Vue.options._base = Vue;
 
-  // extend(Vue.options.components, builtInComponents)
+  extend(Vue.options.components, builtInComponents);
 
-  // initUse(Vue)
-  // initMixin(Vue)
-  initExtend(Vue);
-  // initAssetRegisters(Vue)
+  initUse(Vue); // 初始化 vue.use 方法
+  initMixin(Vue); // 初始化 vue.mixin 方法
+  initExtend(Vue); // 初始化 Vue.extend 方法
+  initAssetRegisters(Vue); //
 }

@@ -15,7 +15,7 @@ export function setActiveInstance(vm) {
 export function initLifecycle(vm) {
   const options = vm.$options;
 
-  // locate first non-abstract parent
+  // 往上不断找第一个非抽象组件作为自己的父组件
   let parent = options.parent;
   if (parent && !options.abstract) {
     while (parent.$options.abstract && parent.$parent) {
@@ -25,6 +25,8 @@ export function initLifecycle(vm) {
   }
 
   vm.$parent = parent;
+
+  // $root 就是根节点，如果自己的父节点已经存了根节点，那直接用父节点存的就好
   vm.$root = parent ? parent.$root : vm;
 
   vm.$children = [];

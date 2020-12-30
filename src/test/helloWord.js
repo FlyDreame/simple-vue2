@@ -13,6 +13,7 @@ export default {
         on: {
           input: (event) => {
             this.name = event.target.value;
+            this.$emit("change", this.name);
           }
         }
       }),

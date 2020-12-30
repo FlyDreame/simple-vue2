@@ -354,11 +354,10 @@ function assertObjectType(name, value, vm) {
 }
 
 /**
- * Merge two option objects into a new one.
- * Core utility used in both instantiation and inheritance.
+ * 合并两个配置为一个
+ * 在 Vue初始化和组件继承的时候都会用到
  */
 export function mergeOptions(parent, child, vm) {
-  debugger;
   if (typeof child === "function") {
     child = child.options;
   }
@@ -373,9 +372,11 @@ export function mergeOptions(parent, child, vm) {
   // the result of another mergeOptions call.
   // Only merged options has the _base property.
   if (!child._base) {
+    // 如果有 extends 则递归合并
     if (child.extends) {
       parent = mergeOptions(parent, child.extends, vm);
     }
+    // 如果有 mixins 则循环递归合并
     if (child.mixins) {
       for (let i = 0, l = child.mixins.length; i < l; i++) {
         parent = mergeOptions(parent, child.mixins[i], vm);
@@ -383,18 +384,22 @@ export function mergeOptions(parent, child, vm) {
     }
   }
 
+  // 对 parent 和 child 遍历，然后用 mergeField 合并每个属性
   const options = {};
   let key;
   for (key in parent) {
     mergeField(key);
   }
   for (key in child) {
+    // 略过 parent 的key 因为上面已经合并过了
     if (!hasOwn(parent, key)) {
       mergeField(key);
     }
   }
   function mergeField(key) {
+    // strats 就是存放着合并方法的对象，例如 strats.data = function(){//合并data的逻辑...}
     const strat = strats[key] || defaultStrat;
+    // 获取了 当前 key 属性的合并方法 strat，然后执行 strat 合并就好了
     options[key] = strat(parent[key], child[key], vm, key);
   }
   return options;
