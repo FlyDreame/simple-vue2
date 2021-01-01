@@ -161,7 +161,7 @@ export function mountComponent(vm, el, hydrating) {
   return vm;
 }
 
-// 调用
+// 调用注册的钩子
 export function callHook(vm, hook) {
   // #7573 disable dep collection when invoking lifecycle hooks
   // TODO: 先注释掉 Dep 的操作

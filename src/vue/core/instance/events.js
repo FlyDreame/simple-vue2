@@ -16,6 +16,7 @@ export function initEvents(vm) {
   // init parent attached events
   const listeners = vm.$options._parentListeners;
   if (listeners) {
+    debugger;
     updateComponentListeners(vm, listeners);
   }
 }

@@ -38,7 +38,6 @@ export function createFnInvoker(fns, vm) {
 export function updateListeners(on, oldOn, add, remove, createOnceHandler, vm) {
   let name, def, cur, old, event;
   for (name in on) {
-    debugger;
     def = cur = on[name];
     old = oldOn[name];
     event = normalizeEvent(name);

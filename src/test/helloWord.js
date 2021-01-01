@@ -1,4 +1,7 @@
 export default {
+  props: {
+    changeName: String
+  },
   data() {
     return {
       name: "simple-vue"
