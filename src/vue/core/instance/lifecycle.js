@@ -170,6 +170,7 @@ export function callHook(vm, hook) {
   const info = `${hook} hook`;
   if (handlers) {
     for (let i = 0, j = handlers.length; i < j; i++) {
+      // 这里其实就是让钩子函数在 vm 的this下运行，同时还用 try catch 包裹下
       invokeWithErrorHandling(handlers[i], vm, null, vm, info);
     }
   }
