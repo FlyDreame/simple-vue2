@@ -80,7 +80,6 @@ export function initInternalComponent(vm, options) {
 
 export function resolveConstructorOptions(Ctor) {
   let options = Ctor.options;
-  debugger;
   if (Ctor.super) {
     const superOptions = resolveConstructorOptions(Ctor.super);
     const cachedSuperOptions = Ctor.superOptions;

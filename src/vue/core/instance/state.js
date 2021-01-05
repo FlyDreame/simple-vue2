@@ -82,8 +82,8 @@ function initProps(vm, propsOptions) {
   }
   // 遍历 propsOptions
   for (const key in propsOptions) {
-    debugger;
     keys.push(key);
+    // 校验 props 并给个默认值
     const value = validateProp(key, propsOptions, propsData, vm);
 
     // 让 props 变得响应式
@@ -109,7 +109,7 @@ function initData(vm) {
         vm
       );
   }
-  // proxy data on instance
+  // 代理 _data 到 vm 上
   const keys = Object.keys(data);
   const props = vm.$options.props;
   const methods = vm.$options.methods;
@@ -160,6 +160,7 @@ function initComputed(vm, computed) {
   // computed properties are just getters during SSR
   const isSSR = isServerRendering();
 
+  // 遍历 computed，然后挨个用 defineComputed 处理
   for (const key in computed) {
     const userDef = computed[key];
     const getter = typeof userDef === "function" ? userDef : userDef.get;
@@ -196,6 +197,7 @@ function initComputed(vm, computed) {
 }
 
 export function defineComputed(target, key, userDef) {
+  // shouldCache 代表着是否应该有缓存，只有在非 SSR 下才会有缓存
   const shouldCache = !isServerRendering();
   if (typeof userDef === "function") {
     sharedPropertyDefinition.get = shouldCache
