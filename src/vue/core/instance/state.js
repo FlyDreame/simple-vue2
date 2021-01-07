@@ -135,7 +135,7 @@ function initData(vm) {
       proxy(vm, `_data`, key);
     }
   }
-  // observe data
+  // 将 data 上所有的 key 都变得响应式
   observe(data, true /* asRootData */);
 }
 

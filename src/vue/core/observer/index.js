@@ -29,10 +29,8 @@ export function toggleObserving(value) {
 }
 
 /**
- * Observer class that is attached to each observed
- * object. Once attached, the observer converts the target
- * object's property keys into getter/setters that
- * collect dependencies and dispatch updates.
+ * Observer class 是附属在 value 上的观察类，一旦关联上了，就会设置 value 上每个 key 的 getter/setters ，
+ * 用来收集依赖和触发依赖更新。
  */
 export class Observer {
   // value;
@@ -69,7 +67,7 @@ export class Observer {
   }
 
   /**
-   * Observe a list of Array items.
+   * observe 递归处理数组
    */
   observeArray(items) {
     for (let i = 0, l = items.length; i < l; i++) {
@@ -103,9 +101,8 @@ function copyAugment(target, src, keys) {
 }
 
 /**
- * Attempt to create an observer instance for a value,
- * returns the new observer if successfully observed,
- * or the existing observer if the value already has one.
+ * 把 value 上的所有 key 变成响应式，实际结果就是创建一个 Observer 实例 observe，
+ * 如果 value 已经被处理过了，那就不用再处理了直接返回 实例 observe
  */
 export function observe(value, asRootData) {
   if (!isObject(value) || value instanceof VNode) {
