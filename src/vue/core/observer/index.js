@@ -44,10 +44,12 @@ export class Observer {
     def(value, "__ob__", this);
     if (Array.isArray(value)) {
       if (hasProto) {
+        // 下面的代码等同于 value.__proto__ = arrayMethods;
         protoAugment(value, arrayMethods);
       } else {
         copyAugment(value, arrayMethods, arrayKeys);
       }
+      // 遍历数组的元素，然后用 observe 执行
       this.observeArray(value);
     } else {
       this.walk(value);
@@ -55,9 +57,7 @@ export class Observer {
   }
 
   /**
-   * Walk through all properties and convert them into
-   * getter/setters. This method should only be called when
-   * value type is Object.
+   * 遍历所有属性，然后设置他们的 getter/setters
    */
   walk(obj) {
     const keys = Object.keys(obj);
@@ -105,6 +105,7 @@ function copyAugment(target, src, keys) {
  * 如果 value 已经被处理过了，那就不用再处理了直接返回 实例 observe
  */
 export function observe(value, asRootData) {
+  // 如果value非对象或者是 node 节点，就直接返回，因为 observe 会递归调用，所以这个判断很重要
   if (!isObject(value) || value instanceof VNode) {
     return;
   }
@@ -143,7 +144,7 @@ export function defineReactive(obj, key, val, customSetter, shallow) {
   if ((!getter || setter) && arguments.length === 2) {
     val = obj[key];
   }
-
+  // 当 shallow 为 false时，递归执行 observe
   let childOb = !shallow && observe(val);
   Object.defineProperty(obj, key, {
     enumerable: true,
