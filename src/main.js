@@ -1,22 +1,25 @@
+// 简单的 vue 调用
 import vue from "./vue";
 
-import helloWord from "./test/helloWord";
-
 const app = new vue({
-  render: (createElement) => {
-    return createElement("div", {}, [
-      createElement("helloWord", {
-        on: {
-          change: (e) => {
-            console.log("改变了：" + e);
-          }
-        }
-      })
-    ]);
+  data() {
+    return {
+      name: ""
+    };
   },
-  components: { helloWord }
+  watch: {
+    name(value) {
+      console.log(value);
+    }
+  },
+  mounted() {
+    window.setTimeout(() => {
+      this.name = "simple-vue";
+    }, 1000);
+  },
+  render: (createElement) => {
+    return createElement("div", "hello，simple-vue!!");
+  }
 });
-
-console.log(vue);
 
 app.$mount("#app");

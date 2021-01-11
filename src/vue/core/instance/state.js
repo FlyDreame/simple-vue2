@@ -338,6 +338,7 @@ export function stateMixin(Vue) {
     }
     options = options || {};
     options.user = true;
+
     const watcher = new Watcher(vm, expOrFn, cb, options);
     if (options.immediate) {
       try {

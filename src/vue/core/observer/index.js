@@ -142,6 +142,7 @@ export function defineReactive(obj, key, val, customSetter, shallow) {
   const getter = property && property.get;
   const setter = property && property.set;
   if ((!getter || setter) && arguments.length === 2) {
+    // 缓存该属性的值
     val = obj[key];
   }
   // 当 shallow 为 false时，递归执行 observe
@@ -175,12 +176,14 @@ export function defineReactive(obj, key, val, customSetter, shallow) {
       }
       // #7981: for accessor properties without setter
       if (getter && !setter) return;
+      // 如果 value 有 setter 的话，直接用 setter 赋值
       if (setter) {
         setter.call(obj, newVal);
       } else {
         val = newVal;
       }
       childOb = !shallow && observe(newVal);
+      // 通知依赖更新
       dep.notify();
     }
   });

@@ -1,9 +1,9 @@
 /* @flow */
 
-import { remove } from '../util/index'
-import config from '../config'
+import { remove } from "../util/index";
+import config from "../config";
 
-let uid = 0
+let uid = 0;
 
 /**
  * A dep is an observable that can have multiple
@@ -14,36 +14,41 @@ export default class Dep {
   // id: number;
   // subs: Array<Watcher>;
 
-  constructor () {
-    this.id = uid++
-    this.subs = []
+  constructor() {
+    this.id = uid++;
+    // 订阅集合
+    this.subs = [];
   }
 
-  addSub (sub) {
-    this.subs.push(sub)
+  // 添加订阅
+  addSub(sub) {
+    this.subs.push(sub);
   }
 
-  removeSub (sub) {
-    remove(this.subs, sub)
+  // 删除订阅
+  removeSub(sub) {
+    remove(this.subs, sub);
   }
 
-  depend () {
+  // 确定一个依赖
+  depend() {
     if (Dep.target) {
-      Dep.target.addDep(this)
+      Dep.target.addDep(this);
     }
   }
 
-  notify () {
+  // 通知依赖更新
+  notify() {
     // stabilize the subscriber list first
-    const subs = this.subs.slice()
-    if (process.env.NODE_ENV !== 'production' && !config.async) {
+    const subs = this.subs.slice();
+    if (process.env.NODE_ENV !== "production" && !config.async) {
       // subs aren't sorted in scheduler if not running async
       // we need to sort them now to make sure they fire in correct
       // order
-      subs.sort((a, b) => a.id - b.id)
+      subs.sort((a, b) => a.id - b.id);
     }
     for (let i = 0, l = subs.length; i < l; i++) {
-      subs[i].update()
+      subs[i].update();
     }
   }
 }
@@ -51,15 +56,15 @@ export default class Dep {
 // The current target watcher being evaluated.
 // This is globally unique because only one watcher
 // can be evaluated at a time.
-Dep.target = null
-const targetStack = []
+Dep.target = null;
+const targetStack = [];
 
-export function pushTarget (target) {
-  targetStack.push(target)
-  Dep.target = target
+export function pushTarget(target) {
+  targetStack.push(target);
+  Dep.target = target;
 }
 
-export function popTarget () {
-  targetStack.pop()
-  Dep.target = targetStack[targetStack.length - 1]
+export function popTarget() {
+  targetStack.pop();
+  Dep.target = targetStack[targetStack.length - 1];
 }
