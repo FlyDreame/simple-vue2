@@ -47,6 +47,7 @@ export default class Watcher {
     options,
     isRenderWatcher
   ) {
+    
     this.vm = vm
     if (isRenderWatcher) {
       vm._watcher = this
@@ -77,6 +78,7 @@ export default class Watcher {
     if (typeof expOrFn === 'function') {
       this.getter = expOrFn
     } else {
+      // parsePath 是为了解析 watch 字段，例如 x.y.z 这样的，返回一个获取 value 的函数，执行 this.getter() 会触发 get 事件
       this.getter = parsePath(expOrFn)
       if (!this.getter) {
         this.getter = noop
@@ -94,7 +96,7 @@ export default class Watcher {
   }
 
   /**
-   * Evaluate the getter, and re-collect dependencies.
+   * 触发 getter, and 重新收集依赖.
    */
   get () {
     pushTarget(this)
@@ -109,8 +111,7 @@ export default class Watcher {
         throw e
       }
     } finally {
-      // "touch" every property so they are all tracked as
-      // dependencies for deep watching
+      // 为了深度监听，递归对象，触发所有属性的 getter 
       if (this.deep) {
         traverse(value)
       }

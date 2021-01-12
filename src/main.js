@@ -14,7 +14,10 @@ const app = new vue({
   },
   mounted() {
     window.setTimeout(() => {
-      this.name = "simple-vue";
+      // this.name = "simple-vue";
+      for (let i = 0; i <= 1000; i++) {
+        this.name = 'simple-vue' + i
+      }
     }, 1000);
   },
   render: (createElement) => {
