@@ -30,14 +30,14 @@ export default class Dep {
     remove(this.subs, sub);
   }
 
-  // 确定一个依赖
+  // 添加当前正在处理的 wathcer
   depend() {
     if (Dep.target) {
       Dep.target.addDep(this);
     }
   }
 
-  // 通知依赖更新
+  // 通知wathcer更新
   notify() {
     // stabilize the subscriber list first
     const subs = this.subs.slice();

@@ -13,13 +13,13 @@ import {
 
 export const MAX_UPDATE_COUNT = 100
 
-const queue = []
+const queue = [] // 用来存放 watcher 的队列
 const activatedChildren = []
-let has = {}
+let has = {} // 可以当成 Map 结构，存放 queue 中的 watcher.id
 let circular = {}
-let waiting = false
-let flushing = false
-let index = 0
+let waiting = false // 若为 true 则等待一下
+let flushing = false // 当前是否正在清空队列中
+let index = 0 // 当前正在处理的序号
 
 /**
  * Reset the scheduler's state.
@@ -72,18 +72,14 @@ function flushSchedulerQueue () {
   flushing = true
   let watcher, id
 
-  // Sort queue before flush.
-  // This ensures that:
-  // 1. Components are updated from parent to child. (because parent is always
-  //    created before the child)
-  // 2. A component's user watchers are run before its render watcher (because
-  //    user watchers are created before the render watcher)
-  // 3. If a component is destroyed during a parent component's watcher run,
-  //    its watchers can be skipped.
+  // queue.sort((a, b) => a.id - b.id) 对队列做了从小到大的排序，这么做主要有以下要确保以下几点
+  // 是为了确保:
+  // 1. 组件的更新由父到子；因为父组件的创建过程是先于子的，所以 watcher 的创建也是先父后子，执行顺序也应该保持先父后子。
+  // 2. 用户的自定义 watcher 要优先于渲染 watcher 执行；因为用户自定义 watcher 是在渲染 watcher 之前创建的。
+  // 3. 如果一个组件在父组件的 watcher 执行期间被销毁，那么它对应的 watcher 执行都可以被跳过，所以父组件的 watcher 应该先执行。
   queue.sort((a, b) => a.id - b.id)
 
-  // do not cache length because more watchers might be pushed
-  // as we run existing watchers
+  // 不缓存 queue.length 是因为有别的 watchers 可能会在我们正在运行的时候 push 进来
   for (index = 0; index < queue.length; index++) {
     watcher = queue[index]
     if (watcher.before) {
@@ -91,7 +87,7 @@ function flushSchedulerQueue () {
     }
     id = watcher.id
     has[id] = null
-    watcher.run()
+    watcher.run() // 执行 run,触发 watcher 注册的回调函数
     // in dev build, check and stop circular updates.
     if (process.env.NODE_ENV !== 'production' && has[id] != null) {
       circular[id] = (circular[id] || 0) + 1
@@ -156,26 +152,27 @@ function callActivatedHooks (queue) {
 }
 
 /**
- * Push a watcher into the watcher queue.
- * Jobs with duplicate IDs will be skipped unless it's
- * pushed when the queue is being flushed.
+ * Push 一个 watcher 到 watcher 队列里.
+ * 根据 watcher.id 来判断，重复的 watcher 将直接被忽略 ，除非整个队列清空了
  */
 export function queueWatcher (watcher) {
   const id = watcher.id
+  // 如果 has 这个 Map 中 不存在该 id，那就进行下一步
   if (has[id] == null) {
-    has[id] = true
-    if (!flushing) {
+    has[id] = true // 存下这个id
+    if (!flushing) { // 如果当前没有在清空队列
       queue.push(watcher)
     } else {
-      // if already flushing, splice the watcher based on its id
-      // if already past its id, it will be run next immediately.
+      // watcher队列 是按 id 排序的，如果队列正在处理中，那么就把他放在合适的位置，比如队列中有 [1,3,5]，当前要添加的 watcher id 是 2，那么就 添加到 1 和 3 中间。但如果 1,3已经处理完了，比如 index = 1, 那么就插到 5 前面。
       let i = queue.length - 1
+      // index 就是当前正在处理到哪个位置
       while (i > index && queue[i].id > watcher.id) {
         i--
       }
+      // 把当前 watcher 插进去
       queue.splice(i + 1, 0, watcher)
     }
-    // queue the flush
+    // 如果 waiting 为 true，那就排队等着吧， waiting 保证了 flushSchedulerQueue 只能运行一个，flushSchedulerQueue 运行完之后，才能运行下一个 flushSchedulerQueue。
     if (!waiting) {
       waiting = true
 
@@ -183,6 +180,7 @@ export function queueWatcher (watcher) {
         flushSchedulerQueue()
         return
       }
+      // flushSchedulerQueue 放到微任务队列去，等待执行
       nextTick(flushSchedulerQueue)
     }
   }

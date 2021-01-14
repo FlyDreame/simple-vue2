@@ -157,8 +157,8 @@ export default class Watcher {
   }
 
   /**
-   * Subscriber interface.
-   * Will be called when a dependency changes.
+   * 给 dep 调用的接口
+   * 当依赖变化后，会被 dep 调用
    */
   update () {
     /* istanbul ignore else */
@@ -172,8 +172,7 @@ export default class Watcher {
   }
 
   /**
-   * Scheduler job interface.
-   * Will be called by the scheduler.
+   * 将会被 scheduler 调用
    */
   run () {
     if (this.active) {
