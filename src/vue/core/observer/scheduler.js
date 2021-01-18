@@ -25,11 +25,14 @@ let index = 0 // 当前正在处理的序号
  * Reset the scheduler's state.
  */
 function resetSchedulerState () {
+  // 清空队列
   index = queue.length = activatedChildren.length = 0
+  // 清空 Map 
   has = {}
   if (process.env.NODE_ENV !== 'production') {
     circular = {}
   }
+  // flag 也重置
   waiting = flushing = false
 }
 
