@@ -17,6 +17,6 @@ const app = new vue({
   components: { helloWord }
 });
 
-console.log(vue);
+console.log(app);
 
 app.$mount("#app");

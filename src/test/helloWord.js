@@ -1,7 +1,9 @@
+import helloWordChild from './helloWordChild'
 export default {
   props: {
     changeName: String
   },
+  components: {helloWordChild},
   data() {
     return {
       name: "simple-vue"
@@ -20,7 +22,8 @@ export default {
           }
         }
       }),
-      createElement("h2", `hello，${this.name}`)
+      createElement("h2", `hello，${this.name}`),
+      createElement("helloWordChild")
     ]);
   },
   watch: {
