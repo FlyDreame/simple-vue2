@@ -96,7 +96,7 @@ export default class Watcher {
   }
 
   /**
-   * 触发 getter, and 重新收集依赖.
+   * 触发 getter, 并且重新收集依赖.
    */
   get () {
     pushTarget(this)
