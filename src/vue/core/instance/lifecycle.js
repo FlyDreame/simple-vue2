@@ -47,10 +47,10 @@ export function lifecycleMixin(Vue) {
   Vue.prototype._update = function (vnode, hydrating) {
     const vm = this;
     const prevEl = vm.$el;
-    const prevVnode = vm._vnode;
+    const prevVnode = vm._vnode; // 当前的 vnode
     const restoreActiveInstance = setActiveInstance(vm);
     vm._vnode = vnode;
-    // Vue.prototype.__patch__ 已经在入口文件被注册了
+    // Vue.prototype.__patch__ 已经在入口就被注册了
     if (!prevVnode) {
       // 第一次执行 render
       vm.$el = vm.__patch__(vm.$el, vnode, hydrating, false /* removeOnly */);
