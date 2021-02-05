@@ -32,6 +32,7 @@ export const emptyNode = new VNode("", {}, []);
 
 const hooks = ["create", "activate", "update", "remove", "destroy"];
 
+// 判断两个节点是不是相同节点，判断的依据，则是 key,tag,isComment等等等等属性是否一致
 function sameVnode(a, b) {
   return (
     a.key === b.key &&
@@ -809,35 +810,36 @@ export function createPatchFunction(backend) {
   }
 
   return function patch(oldVnode, vnode, hydrating, removeOnly) {
-    debugger
+    // vnode 为null
     if (isUndef(vnode)) {
-      if (isDef(oldVnode)) invokeDestroyHook(oldVnode);
+      if (isDef(oldVnode)) invokeDestroyHook(oldVnode); // 卸载掉 oldVnode
       return;
     }
 
     let isInitialPatch = false;
     const insertedVnodeQueue = [];
-
+    
     if (isUndef(oldVnode)) {
-      // empty mount (likely as component), create new root element
+      // oldVnode 为 null ，像组件一样空挂载，直接调用 createElm
       isInitialPatch = true;
       createElm(vnode, insertedVnodeQueue);
     } else {
       const isRealElement = isDef(oldVnode.nodeType);
       if (!isRealElement && sameVnode(oldVnode, vnode)) {
-        // patch existing root node
+        // oldVnode 不是真实节点，且 oldVnode 与 vnode 是相同的（相同的依据看 sameVnode），则需要进行 diff
         patchVnode(oldVnode, vnode, insertedVnodeQueue, null, null, removeOnly);
       } else {
+        // 否则的话，直接调用用 createElm，并替换掉 oldVnode
         if (isRealElement) {
           // 先用个空的替换掉 oldVnode
           oldVnode = emptyNodeAt(oldVnode);
         }
 
-        // replacing existing element
+        // 替换已经存在的 el
         const oldElm = oldVnode.elm;
         const parentElm = nodeOps.parentNode(oldElm);
 
-        // create new node
+        // 创建一个新的dom节点
         createElm(
           vnode,
           insertedVnodeQueue,

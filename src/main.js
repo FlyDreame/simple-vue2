@@ -1,22 +1,15 @@
 import vue from "./vue";
 
-import helloWord from "./test/helloWord";
+import patchDemo from "./test/patchDemo";
 
 const app = new vue({
   render: (createElement) => {
     return createElement("div", {}, [
-      createElement("helloWord", {
-        on: {
-          change: (e) => {
-            console.log("改变了：" + e);
-          }
-        }
-      })
+      createElement("patchDemo")
     ]);
   },
-  components: { helloWord }
+  components: { patchDemo }
 });
 
-console.log(app);
 
 app.$mount("#app");
