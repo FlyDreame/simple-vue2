@@ -599,6 +599,7 @@ export function createPatchFunction(backend) {
     index,
     removeOnly
   ) {
+    // 两个节点是一个
     if (oldVnode === vnode) {
       return;
     }
@@ -619,10 +620,7 @@ export function createPatchFunction(backend) {
       return;
     }
 
-    // reuse element for static trees.
-    // note we only do this if the vnode is cloned -
-    // if the new node is not cloned it means the render functions have been
-    // reset by the hot-reload-api and we need to do a proper re-render.
+    // 如果 vnode 与 oldVnode 都是静态节点，那就退出
     if (
       isTrue(vnode.isStatic) &&
       isTrue(oldVnode.isStatic) &&
@@ -635,32 +633,43 @@ export function createPatchFunction(backend) {
 
     let i;
     const data = vnode.data;
+    
     if (isDef(data) && isDef((i = data.hook)) && isDef((i = i.prepatch))) {
       i(oldVnode, vnode);
     }
 
     const oldCh = oldVnode.children;
     const ch = vnode.children;
+
     if (isDef(data) && isPatchable(vnode)) {
       for (i = 0; i < cbs.update.length; ++i) cbs.update[i](oldVnode, vnode);
       if (isDef((i = data.hook)) && isDef((i = i.update))) i(oldVnode, vnode);
     }
+
     if (isUndef(vnode.text)) {
+      // 如果不是文本节点
       if (isDef(oldCh) && isDef(ch)) {
+        // vnode的子节点与oldVnode的子节点都存在，就执行 updateChildren 进行更新对比
         if (oldCh !== ch)
           updateChildren(elm, oldCh, ch, insertedVnodeQueue, removeOnly);
       } else if (isDef(ch)) {
+        // 只有vnode的子节点存在
         if (process.env.NODE_ENV !== "production") {
           checkDuplicateKeys(ch);
         }
+        // 如果oldVnode有文本，先清空文本
         if (isDef(oldVnode.text)) nodeOps.setTextContent(elm, "");
+        // 
         addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue);
       } else if (isDef(oldCh)) {
+        // 只有oldvnode的子节点存在，就清空好了
         removeVnodes(oldCh, 0, oldCh.length - 1);
       } else if (isDef(oldVnode.text)) {
+        // 都没子节点，但是 oldVnode 有文本，清空文本
         nodeOps.setTextContent(elm, "");
       }
     } else if (oldVnode.text !== vnode.text) {
+      // 如果是文本节点，直接替换文本
       nodeOps.setTextContent(elm, vnode.text);
     }
     if (isDef(data)) {
